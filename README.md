@@ -21,3 +21,8 @@ where $\tau>0$ is a delay parameter. In this case, the current rate of change de
 $$u(t)=\sum_{n=0}^\infty\frac{b^n(t-n\tau)^n}{n!}\Theta\left(t-n\tau\right),$$
 
 where $\Theta(t)$ is the Heaviside function that is defined to be zero for $t<0$ and one for $t\ge 0$. 
+
+
+Small Time Dynamics            |  Large Time Dynamics
+:-------------------------:|:-------------------------:
+ ![Small Time](Figures/Solution_Small_Time.png) | ![Large Time](Figures/Solution_Large_Time.png) 
