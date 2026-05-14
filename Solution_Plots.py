@@ -48,7 +48,8 @@ plt.rcParams.update({
     "ytick.labelsize": 22,
     "axes.labelsize": 24,
     "axes.titlesize": 26,
-    "legend.fontsize": 22})
+    "legend.fontsize": 22
+})
 
 ax.set_xlabel("Time (days)")
 ax.set_ylabel(r"$u(t)$")
