@@ -151,9 +151,7 @@ The vertical axis is an out-of-sample error measure, such as RMSE.
 
 If the lowest error occurs at \(d=0\), then the evidence suggests that the VIX response is mostly immediate. If the lowest error occurs at \(d>0\), then the evidence suggests that the strongest relationship between equity stress and VIX changes occurs after a lag.
 
-**Suggested caption:**
-
-> Out-of-sample model error as a function of the assumed delay. The case \(d=0\) is the non-delay benchmark. A lower error at \(d>0\) suggests that equity-market stress has a delayed relationship with changes in VIX.
+ Out-of-sample model error as a function of the assumed delay. The case \(d=0\) is the non-delay benchmark. A lower error at \(d>0\) suggests that equity-market stress has a delayed relationship with changes in VIX.
 
 This plot directly answers the question:
 
