@@ -26,11 +26,11 @@ Small Time Dynamics            |  Large Time Dynamics
 :-------------------------:|:-------------------------:
  ![Small Time](Figures/Solution_Small_Time.png) | ![Large Time](Figures/Solution_Large_Time.png) 
 
-The plots above highlight the key modelling distinction between the ODE and DDE approaches. In the ODE model, the response begins immediately because the current rate of change depends on the current value \(u(t)\). In contrast, the DDE solution remains flat until the delay period has passed, after which the response begins to propagate. The delay model therefore does not simply change the size of the response; it changes the **timing** of the response.
+The plots above highlight the key modelling distinction between the ODE and DDE approaches. In the ODE model, the response begins immediately because the current rate of change depends on the current value $u(t)$. In contrast, the DDE solution remains flat until the delay period has passed, after which the response begins to propagate. The delay model therefore does not simply change the size of the response; it changes the **timing** of the response.
 
 This distinction is useful in a financial setting. A standard non-delay model can test whether volatility reacts to a market shock at the same time the shock occurs. A delay model can instead test whether part of the volatility response appears after a lag. In other words, the non-delay model captures an immediate reaction, whereas the delay model captures delayed propagation.
 
-The empirical question is therefore:
+The key question is therefore:
 
 $$
 \textit{When the equity market falls, is the VIX response immediate, or is part of the response delayed?}
@@ -42,29 +42,21 @@ To test this idea using real market data, I use the VIX as a measure of implied 
 
 Let
 
-$$
-x_t = \log(VIX_t)
-$$
+$$u_t = \log(VIX_t)$$
 
-denote the log of the VIX on trading day \(t\). I use log-VIX rather than VIX directly because VIX is positive, and changes in volatility are often easier to interpret on a relative scale.
+denote the log of the VIX on trading day $t$. I use log-VIX rather than VIX directly because VIX is positive, and changes in volatility are often easier to interpret on a relative scale.
 
 The daily change in log-VIX is
 
-$$
-\Delta x_t = x_t - x_{t-1}.
-$$
+$$\Delta u_t = u_t - u_{t-1}.$$
 
-Next, let \(P_t\) denote the S&P 500 level on day \(t\). The daily log-return is
+Next, let $P_t$ denote the S&P 500 level on day $t$. The daily log-return is
 
-$$
-r_t = \log(P_t) - \log(P_{t-1}).
-$$
+$$r_t = \log(P_t) - \log(P_{t-1}).$$
 
 Since volatility tends to rise most strongly when the equity market falls, I define a downside stress variable by
 
-$$
-S_t = \max(-r_t,0).
-$$
+$$S_t = \max(-r_t,0).$$
 
 This means that \(S_t\) is positive only on days when the S&P 500 falls. For example, if the market rises, then \(S_t=0\). If the market falls by approximately \(2\%\), then \(S_t \approx 0.02\).
 
