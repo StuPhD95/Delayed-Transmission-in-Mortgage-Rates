@@ -129,9 +129,8 @@ The first empirical plot shows the raw market intuition by comparing the VIX wit
 
 The purpose of this plot is not to prove the model. Rather, it visually motivates the relationship: large downside moves in the equity market often coincide with elevated VIX.
 
-**Suggested caption:**
 
-> The VIX tends to rise during periods of downside equity-market stress. This motivates modelling VIX changes as a response to negative S&P 500 returns.
+ The VIX tends to rise during periods of downside equity-market stress. This motivates modelling VIX changes as a response to negative S&P 500 returns.
 
 ---
 
@@ -169,9 +168,7 @@ The non-delay model places the volatility response at day \(0\). The delay model
 
 For example, if the estimated best delay is \(d=3\), then the non-delay model assumes that the VIX response occurs immediately, while the delay model suggests that the strongest response occurs three trading days later.
 
-**Suggested caption:**
-
-> Stylised response to a one-day equity-market shock. The non-delay model assumes the volatility response is immediate. The delay model allows the strongest response to occur after a lag, giving an interpretable estimate of the stress-transmission horizon.
+Stylised response to a one-day equity-market shock. The non-delay model assumes the volatility response is immediate. The delay model allows the strongest response to occur after a lag, giving an interpretable estimate of the stress-transmission horizon.
 
 This plot makes the benefit of the delay model visually clear: the delay model estimates the **timing** of the response, not only its size.
 
