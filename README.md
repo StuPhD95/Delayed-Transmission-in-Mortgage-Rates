@@ -1,26 +1,26 @@
 # Delayed Volatility Response to Market Stress
 
-When the stock market falls, volatility often rises. However, the response to a market shock may not occur all at once. Part of the effect may unfold over the following days as investors adjust their positions, hedge risk and respond to new information. Delay differential equations (DDEs) provide a natural way to model this delayed response, capturing propagation effects that standard memoryless ordinary differential equation (ODE) or partial differential equation (PDE) models often miss.
+When the stock market falls, volatility often rises. However, the response to a market shock may not occur all at once. Part of the effect may unfold over the following days as investors adjust their positions, hedge risk and respond to new information. Delay differential equations (DDEs) provide a natural way to model this delayed response, capturing propagation effects that standard memoryless ordinary differential equation (ODE) or partial differential equation (PDE) models can overlook.
 
-For ODEs, the exponential function plays a fundamental role. As a deliberately simplified benchmark for an immediate volatility response, consider
+As a deliberately simplified benchmark for an immediate volatility response, consider
 
-$$\frac{du(t)}{dt}=au(t), \quad a>0,$$
+$$\frac{du(t)}{dt}=au(t),$$
 
-where $u(t)$ represents a measure of volatility and $a$ is a growth parameter. The solution of this equation is
+where $u(t)$ represents the change in volatility after $t$ days and $a>0$ is a growth parameter. The solution is given by
 
 $$u(t)=u(0)e^{at}.$$
 
-This solution describes how the effect of the initial condition evolves over time. Although this model is too simple to be realistic on its own, it provides a useful benchmark in that the current rate of change depends only on the current volatility value. 
+This model is not intended to be realistic on its own. It simply illustrates that the current rate of change depends only on the current value $u(t)$.
 
 For DDEs, the analogous delay model is 
 
-$$ \frac{du(t)}{dt}=bu(t-\tau), \quad b>0,$$
+$$ \frac{du(t)}{dt}=au(t-\tau),$$
 
-where $\tau>0$ is a delay parameter. In this case, the current rate of change depends on the past value, which captures the idea that volatility may respond to previous market conditions after a time lag. The solution of this equation with $u(t)=0$ for $t<0$ and $u(0)=1$ is given by 
+where $\tau>0$ is a delay parameter. In this case, the current rate of change depends on the past value, which captures the idea that volatility may respond to previous market conditions after a time lag. The solution of this equation with history $u(t)=0$ for $t<0$ and $u(0)=1$ is given by 
 
-$$u(t)=\sum_{n=0}^\infty\frac{b^n(t-n\tau)^n}{n!}\Theta\left(t-n\tau\right),$$
+$$u(t)=\sum_{n=0}^\infty\frac{a^n(t-n\tau)^n}{n!}\Theta\left(t-n\tau\right),$$
 
-where $\Theta(t)$ is the Heaviside function that is defined to be zero for $t<0$ and one for $t\ge 0$. The below plots illustrate the dynamics of the aforementioned solutions over different time periods.
+where $\Theta(t)$ is the Heaviside function that is defined as $\Theta(t)=0$ for $t<0$ and $\Theta(t)=1$ for $t\ge 0$. The below plots illustrate the dynamics of the aforementioned solutions over two different time periods.
 
 Small Time Dynamics            |  Large Time Dynamics
 :-------------------------:|:-------------------------:
