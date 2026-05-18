@@ -1,32 +1,32 @@
-# Delayed Volatility Response to Market Stress
+# Delayed Yield-Curve Transmission After Short-Rate Shocks
 
-When the stock market falls, volatility often rises. However, the response to a market shock may not occur all at once. Part of the effect may unfold over the following days as investors adjust their positions, hedge risk and respond to new information. Delay differential equations (DDEs) provide a natural way to model this delayed response, capturing propagation effects that standard memoryless ordinary differential equation (ODE) or partial differential equation (PDE) models can overlook.
+When interest-rate expectations change, bond yields often move across the yield curve. However, the response may not occur uniformly across all maturities or all at once. Short-maturity yields may react quickly to changes in expected policy rates, while longer-maturity yields can adjust over subsequent days as investors reassess inflation, growth, term premia and duration risk. Delay differential equations (DDEs) provide a natural way to model this delayed transmission, capturing propagation effects that standard memoryless ordinary differential equation (ODE) or partial differential equation (PDE) models can overlook.
 
-As a deliberately simplified benchmark for an immediate volatility response, consider
+As a deliberately simplified benchmark for an immediate yield response, consider
 
 $$\frac{du(t)}{dt}=au(t),$$
 
-where $u(t)$ represents the change in volatility after $t$ days and $a>0$ is a growth parameter. The solution is given by
+where $u(t)$ represents the change in a longer-maturity bond yield after $t$ days and $a>0$ is a growth parameter. The solution is given by
 
 $$u(t)=u(0)e^{at}.$$
 
-This model is not intended to be realistic on its own. It simply illustrates that the current rate of change depends only on the current value $u(t)$.
+This model is not intended to be realistic on its own. It simply illustrates that the current rate of change depends only on the current value $u(t)$, so the response begins immediately.
 
 For DDEs, the analogous delay model is 
 
 $$ \frac{du(t)}{dt}=au(t-\tau),$$
 
-where $\tau>0$ is a delay parameter. In this case, the current rate of change depends on the past value, which captures the idea that volatility may respond to previous market conditions after a time lag. The solution of this equation with history $u(t)=0$ for $t<0$ and $u(0)=1$ is given by 
+where $\tau>0$ is a delay parameter. In this case, the current rate of change depends on the past value, which captures the idea that longer-maturity yields may respond to earlier short-rate or policty shocks only after a time lag. The solution of this equation with history $u(t)=0$ for $t<0$ and $u(0)=1$ is given by 
 
 $$u(t)=\sum_{n=0}^\infty\frac{a^n(t-n\tau)^n}{n!}\Theta(t-n\tau),$$
 
-where $\Theta(t)$ is the Heaviside function that is defined as $\Theta(t)=0$ for $t<0$ and $\Theta(t)=1$ for $t\ge 0$. The below plots illustrate the dynamics of the aforementioned solutions over two different time periods.
+where $\Theta(t)$ is the Heaviside function that is defined as $\Theta(t)=0$ for $t<0$ and $\Theta(t)=1$ for $t\ge 0$. The plots below illustrate the dynamics of these solutions over two different time periods. 
 
 Small Time Dynamics            |  Large Time Dynamics
 :-------------------------:|:-------------------------:
  ![Small Time](Figures/Solution_Small_Time.png) | ![Large Time](Figures/Solution_Large_Time.png) 
 
-The plots above highlight the key modelling distinction between the ODE and DDE approaches. In the ODE model, the response begins immediately because the current rate of change depends on the current value $u(t)$. In contrast, the DDE solution remains flat until the delay period has passed, after which the response begins to propagate. The delay model therefore does not simply change the size of the response; it changes the **timing** of the response.
+The key distinction is that the ODE model produces an immediate response, whereas the DDE model allows the response to begin only after the delay period has passed. In a fixed-income setting, this reflects the idea that shocks to short-rate expectations may not be transmitted instantaneously to longer-maturity yields. Instead, part of the adjustment may unfold over subsequent trading days as the market reassesses the implications for inflation, growth and term premia.
 
 This distinction is useful in a financial setting. A standard non-delay model can test whether volatility reacts to a market shock at the same time the shock occurs. A delay model can instead test whether part of the volatility response appears after a lag. In other words, the non-delay model captures an immediate reaction, whereas the delay model captures delayed propagation.
 
