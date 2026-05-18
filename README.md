@@ -1,6 +1,15 @@
-# Delayed Reactions in Bond Yields
+# Delayed Transmission in Mortgage Rates
 
-A key concept in fixed-income markets is the yield curve. It shows how the expected yearly return on bonds, known as the yield, changes across different maturities, from short-term bonds to longer-term bonds. The yield curve is closely watched because its shape reflects how investors think about future interest rates, inflation and economic growth. When expectations about future interest rates change, bond yields often move across the curve. However, not every part of the curve reacts in the same way or at the same time. Short-maturity yields may react quickly to changes in expected policy rates, while longer-maturity yields may adjust over subsequent days as investors reassess inflation, growth and the risks associated with holding longer-term bonds. Delay differential equations (DDEs) provide a natural way to model this gradual transmission, because they allow current yield movements to depend on past values. This can capture delayed effects that standard memoryless ordinary differential equation (ODE) or partial differential equation (PDE) models may overlook.
+This project tests whether adding multiple constant time-delays improves a simple memoryless benchmark in a fixed-income setting. The motivating question is:
+
+> Do mortgage rates respond immediately to changes in Treasury yields, or does part of the response arrive with a delay
+
+
+## Motivation
+
+A key concept in fixed-income markets is the yield curve. It illustrates how the expected yearly return on bonds, known as the yield, changes across different maturities (e.g. short-term bonds to longer-term bonds). The yield curve is closely watched because its shape reflects how investors think about future interest rates, inflation and economic growth. 
+
+When expectations about future interest rates change, bond yields often move across the curve. However, not every part of the curve reacts in the same way or at the same time. Short-maturity yields may react quickly to changes in expected policy rates, while longer-maturity yields may adjust over subsequent days as investors reassess inflation, growth and the risks associated with holding longer-term bonds. Delay differential equations (DDEs) provide a natural way to model this gradual transmission, because they allow current yield movements to depend on past values. This can capture delayed effects that standard memoryless ordinary differential equation (ODE) or partial differential equation (PDE) models may overlook.
 
 As a deliberately simplified benchmark for a memoryless yield response, consider
 
@@ -16,7 +25,7 @@ For DDEs, the analogous delay model is
 
 $$ \frac{du(t)}{dt}=au(t-\tau),$$
 
-where $\tau>0$ is a delay parameter. In this case, the current rate of change depends on the past value, which captures the idea that longer-maturity yields may respond to earlier short-rate or policty shocks only after a time lag. The solution of this equation with history $u(t)=0$ for $t<0$ and $u(0)=1$ is given by 
+where $\tau>0$ is a delay parameter. In this case, the current rate of change depends on the value of the system $\tau$ days earlier, which captures the idea that longer-maturity yields may respond to earlier short-rate or policty shocks only after a time lag. The solution of this equation with history $u(t)=0$ for $t<0$ and $u(0)=1$ is given by 
 
 $$u(t)=\sum_{n=0}^\infty\frac{a^n(t-n\tau)^n}{n!}\Theta(t-n\tau),$$
 
@@ -30,203 +39,97 @@ The key distinction is that the ODE model produces an immediate response, wherea
 
 This distinction is useful in a financial setting. A standard non-delay model can test whether volatility reacts to a market shock at the same time the shock occurs. A delay model can instead test whether part of the volatility response appears after a lag. In other words, the non-delay model captures an immediate reaction, whereas the delay model captures delayed propagation.
 
-The key question is therefore:
 
-$$
-\textit{When the equity market falls, is the VIX response immediate, or is part of the response delayed?}
-$$
+## Non-Delayed Model
 
-This question is deliberately narrow. The purpose of the model is not to build a complete volatility forecasting system. Rather, the aim is to demonstrate how delay-equation thinking can provide a simple and interpretable way to measure the timing of stress transmission in financial markets.
+It assumes that t
+$$\Delta m_t=c+\beta_0\Delta^{10Y}_t+\epsilon_t,$$
 
-To test this idea using real market data, I use the VIX as a measure of implied equity-market volatility and the S&P 500 as a measure of the underlying equity market.
-
-Let
-
-$$u_t = \log(VIX_t)$$
-
-denote the log of the VIX on trading day $t$. I use log-VIX rather than VIX directly because VIX is positive, and changes in volatility are often easier to interpret on a relative scale.
-
-The daily change in log-VIX is
-
-$$\Delta u_t = u_t - u_{t-1}.$$
-
-Next, let $P_t$ denote the S&P 500 level on day $t$. The daily log-return is
-
-$$r_t = \log(P_t) - \log(P_{t-1}).$$
-
-Since volatility tends to rise most strongly when the equity market falls, I define a downside stress variable by
-
-$$S_t = \max(-r_t,0).$$
-
-This means that \(S_t\) is positive only on days when the S&P 500 falls. For example, if the market rises, then \(S_t=0\). If the market falls by approximately \(2\%\), then \(S_t \approx 0.02\).
-
-The non-delay model is
-
-$$
-\Delta x_t = c + \alpha S_t + \varepsilon_t.
-$$
-
-This model asks whether today's equity-market stress explains today's change in VIX. It is the immediate-response benchmark.
-
-The delay model is
-
-$$
-\Delta x_t = c + \alpha S_{t-d} + \varepsilon_t,
-$$
-
-where \(d\) is a delay measured in trading days. This model asks whether today's change in VIX is better explained by equity-market stress from \(d\) days ago.
-
-The case \(d=0\) corresponds to the non-delay model. The cases \(d=1,2,\ldots,10\) correspond to delayed-response models. By comparing these models, we can estimate the delay horizon at which equity-market stress has the strongest relationship with changes in VIX.
-
-The key output is therefore not just a forecast. It is an interpretable estimate of **timing**. If the best model occurs at \(d=0\), then the evidence suggests that the VIX response is mostly immediate. If the best model occurs at \(d>0\), then the evidence suggests that part of the volatility response is delayed.
-
-## Model Comparison
-
-For each delay
-
-$$
-d = 0,1,2,\ldots,10,
-$$
-
-I fit the model
-
-$$
-\Delta x_t = c + \alpha S_{t-d} + \varepsilon_t
-$$
-
-and evaluate its out-of-sample performance.
-
-The point \(d=0\) is the non-delay model. Values \(d>0\) correspond to delayed models.
-
-The main comparison is therefore:
-
-| Model | Equation | Interpretation |
-|---|---|---|
-| Non-delay model | \(\Delta x_t = c + \alpha S_t + \varepsilon_t\) | Today's VIX change depends on today's equity stress |
-| Delay model | \(\Delta x_t = c + \alpha S_{t-d} + \varepsilon_t\) | Today's VIX change depends on equity stress from \(d\) days ago |
-
-The non-delay model asks:
-
-$$
-\textit{Does VIX respond to equity-market stress today?}
-$$
-
-The delay model asks:
-
-$$
-\textit{Does VIX respond most strongly to equity-market stress after a delay?}
-$$
-
-This is the main benefit of the delay model. It does not merely estimate whether equity stress matters. It estimates **when** that stress appears most strongly in volatility.
-
----
-
-## Plot 1: VIX and Downside Equity Stress
-
-The first empirical plot shows the raw market intuition by comparing the VIX with downside S&P 500 stress.
-
-The purpose of this plot is not to prove the model. Rather, it visually motivates the relationship: large downside moves in the equity market often coincide with elevated VIX.
+where
 
 
- The VIX tends to rise during periods of downside equity-market stress. This motivates modelling VIX changes as a response to negative S&P 500 returns.
+## Delayed Model
 
+The delayed model allows mortgage-rate changes to depend on both current and historical tresury-yield changes. It is given by
 
-![Plot 1](Figures/VIX_and_Market_Stress_Relationship.png)
+$$ \Delta m_t=c+\beta_0\Delta y^{10}_t+\beta_1\Delta y^{10Y}_{t-1}+\beta_2\Delta y^{10Y}_{t-2}+\epsilon_t,$$
+
+where $\Delta m_t$ is the change in the, $\Delta y^{10Y}_{t-i}$ is the change in the 10-year Tresury yield $i$ weeks ago, $\beta_i$ are response coefficients, $c\in\mathbb{R}$ and $\epsilon_t$ denotes the model error.
 
 
 ---
 
-## Plot 2: Model Performance by Delay
+## Results
 
-The second plot is the most important empirical plot. It shows the model error for each assumed delay \(d\).
+The fixed-delay model improves the no-delay benchmark. The no-delay model uses only the same-week change in the 10-year Treasury yield to predict the weekly change in the 30-year fixed mortgage rate:
 
-The horizontal axis is the delay in trading days:
+$$\Delta m_t=c+\beta_0 \Delta y^{10Y}_t+\varepsilon_t.$$
 
-$$
-d = 0,1,2,\ldots,10,
-$$
+The fixed-delay model adds one-week and two-week lagged Treasury-yield changes:
 
-where \(d=0\) is the non-delay benchmark.
+$$\Delta m_t=c+\beta_0 \Delta y^{10Y}_t+\beta_1 \Delta y^{10Y}_{t-1}+\beta_2 \Delta y^{10Y}_{t-2}+\varepsilon_t.$$
 
-The vertical axis is an out-of-sample error measure, such as RMSE.
+The key question is whether these delayed terms improve prediction out of sample.
 
-If the lowest error occurs at \(d=0\), then the evidence suggests that the VIX response is mostly immediate. If the lowest error occurs at \(d>0\), then the evidence suggests that the strongest relationship between equity stress and VIX changes occurs after a lag.
+They do. The fixed-delay model reduces out-of-sample RMSE by **26.06%** relative to the no-delay benchmark.
 
- Out-of-sample model error as a function of the assumed delay. The case \(d=0\) is the non-delay benchmark. A lower error at \(d>0\) suggests that equity-market stress has a delayed relationship with changes in VIX.
-
-This plot directly answers the question:
-
-> What does the delay model show that the non-delay model does not?
-
-It shows whether the relationship between equity stress and VIX is strongest immediately or after a delay.
-
-![Plot 1](Figures/VIX_and_Market_Stress_Relationship.png)
+This means that mortgage-rate changes are better explained by a combination of current and lagged Treasury-yield changes than by current Treasury-yield changes alone.
 
 ---
 
-## Plot 3: Immediate Response versus Delayed Response
+## RMSE Comparison
 
-The third plot provides a simple visual explanation of the difference between the non-delay and delay models.
+The improvement is measured using
 
-The non-delay model places the volatility response at day \(0\). The delay model allows the strongest response to occur after \(d\) trading days.
+$$
+100
+\times
+\frac{
+\text{RMSE}_{\text{no delay}}
+-
+\text{RMSE}_{\text{fixed delay}}
+}{
+\text{RMSE}_{\text{no delay}}
+}.
+$$
 
-For example, if the estimated best delay is \(d=3\), then the non-delay model assumes that the VIX response occurs immediately, while the delay model suggests that the strongest response occurs three trading days later.
+A positive value means the fixed-delay model has lower prediction error than the benchmark.
 
-Stylised response to a one-day equity-market shock. The non-delay model assumes the volatility response is immediate. The delay model allows the strongest response to occur after a lag, giving an interpretable estimate of the stress-transmission horizon.
+In this case, the improvement is **26.06%**, so the result is clearly positive.
 
-This plot makes the benefit of the delay model visually clear: the delay model estimates the **timing** of the response, not only its size.
+<p align="center">
+  <img src="Figures/Mortgage_Delay_RMSE_Comparison.png" width="700">
+</p>
+
+The RMSE comparison shows that the fixed-delay model has lower out-of-sample prediction error than the no-delay benchmark.
+
+<p align="center">
+  <img src="Figures/Mortgage_Delay_RMSE_Improvement.png" width="700">
+</p>
+
+The improvement plot highlights the main quantitative result: adding fixed delays reduces out-of-sample RMSE by **26.06%**.
 
 ---
 
 ## Interpretation
 
-The non-delay model can measure immediate sensitivity. However, it compresses the response into a single contemporaneous relationship. If the market takes several days to absorb a shock, then the non-delay model may miss part of the transmission mechanism.
+This result supports the idea of delayed pass-through from Treasury yields to mortgage rates.
 
-The delay model is better suited to this situation because it can identify a stress-transmission horizon. For example, if the lowest model error occurs at \(d=3\), then the interpretation is:
+Treasury yields are market rates that adjust quickly to new information. Mortgage rates, however, are retail lending rates and may adjust more slowly due to lender pricing, mortgage-market conditions and borrower-facing rate-setting processes.
 
-> The strongest relationship between downside S&P 500 stress and changes in VIX occurs approximately three trading days later.
+The result suggests that this week’s mortgage-rate change is not explained only by this week’s Treasury-yield movement. It also depends on Treasury-yield movements from previous weeks.
 
-This is commercially meaningful. It suggests that the volatility market may not absorb equity-market stress all at once. Part of the response may unfold over subsequent trading days as investors hedge positions, reduce risk, rebalance portfolios, or respond to new information.
-
----
-
-## Connection to Delay Equations
-
-This empirical model is intentionally simple, but it is motivated by the same idea as the delay equation above. In the DDE model, the current rate of change depends on a past state:
-
-$$
-\frac{du(t)}{dt} = b u(t-\tau).
-$$
-
-In the empirical finance model, the current change in log-VIX depends on past market stress:
-
-$$
-\Delta x_t = c + \alpha S_{t-d} + \varepsilon_t.
-$$
-
-The mathematical idea is the same: the present response may depend on past information.
-
-The benefit of delay-equation thinking is that it provides a principled way to interpret lagged responses. Rather than treating time lags as arbitrary regression features, the delay framework gives them a dynamical interpretation. The delay parameter represents the time it takes for a shock to propagate through the system.
-
-In this setting, the delay parameter \(d\) has a direct financial interpretation:
-
-$$
-d = \text{estimated number of trading days for equity stress to transmit into VIX}.
-$$
-
-This is the key output of the project.
+In other words, the fixed-delay model captures information that the no-delay benchmark misses.
 
 ---
 
-## Main Conclusion
+## Takeaway
 
-The non-delay model captures whether equity-market stress and VIX move together immediately. The delay model adds one additional piece of information: **timing**.
+The main result is:
 
-Put simply:
+> Adding one-week and two-week fixed delays reduces out-of-sample RMSE by **26.06%** relative to the no-delay model.
 
-> **The non-delay model captures reaction. The delay model captures propagation.**
+This provides a simple, data-driven example where delay-based modelling improves a standard benchmark.
 
-This is why the delay model is useful. It can show whether the effect of an equity-market shock is absorbed immediately or whether it continues to transmit into implied volatility over subsequent trading days.
+The result does not prove that mortgage rates follow a delay differential equation. However, it does show that fixed-delay terms add useful predictive information in this mortgage-rate pass-through setting.
 
-The project therefore demonstrates the practical value of delay-equation methods: they provide a natural framework for modelling systems where responses unfold over time. In a financial setting, this gives a simple and interpretable way to measure delayed volatility transmission.
- 
