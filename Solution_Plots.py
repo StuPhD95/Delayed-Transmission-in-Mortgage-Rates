@@ -31,11 +31,18 @@ def delay_exponential(t, b, tau):
     return u
 
 # Time grid
-t = np.linspace(0, 1, 1000)
+t = np.linspace(0, 8, 1000)
 
 # Solutions
 u_DDE = delay_exponential(t, b, tau)
 u_ODE = np.exp(b * t)
+
+plt.rcParams.update({
+    "xtick.labelsize": 22,
+    "ytick.labelsize": 22,
+    "axes.labelsize": 24,
+    "axes.titlesize": 26,
+    "legend.fontsize": 22})
 
 # Main plot
 fig, ax = plt.subplots(figsize=(16, 10))
@@ -43,17 +50,9 @@ fig, ax = plt.subplots(figsize=(16, 10))
 ax.plot(t, u_ODE, label=r"ODE solution")
 ax.plot(t, u_DDE, label=r"DDE solution")
 
-plt.rcParams.update({
-    "xtick.labelsize": 22,
-    "ytick.labelsize": 22,
-    "axes.labelsize": 24,
-    "axes.titlesize": 26,
-    "legend.fontsize": 22
-})
-
 ax.set_xlabel("Time (days)")
 ax.set_ylabel(r"$u(t)$")
 ax.set_title("ODE Solution vs DDE Solution")
-ax.legend(fontsize=20)
+ax.legend()
 
 plt.show()
