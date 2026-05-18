@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Parameters
-b, tau = 1.0, 0.5
+b, tau = 0.5, 0.5
 
 # Delay exponential function
 def delay_exponential(t, b, tau):
