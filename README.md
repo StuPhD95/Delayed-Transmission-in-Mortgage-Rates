@@ -20,7 +20,7 @@ where $\tau>0$ is a delay parameter. In this case, the current rate of change de
 
 $$u(t)=\sum_{n=0}^\infty\frac{a^n(t-n\tau)^n}{n!}\Theta(t-n\tau),$$
 
-where $\Theta(t)$ is the Heaviside function that is defined as $\Theta(t)=0$ for $t<0$ and $\Theta(t)=1$ for $t\ge 0$. The plots below illustrate the dynamics of these solutions over two different time periods where $a=1$. 
+where $\Theta(t)$ is the Heaviside function that is defined as $\Theta(t)=0$ for $t<0$ and $\Theta(t)=1$ for $t\ge 0$. The plots below illustrate the dynamics of these solutions over two different time periods where $a=\tau=0.5$. 
 
 Small Time Dynamics            |  Large Time Dynamics
 :-------------------------:|:-------------------------:
