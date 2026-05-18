@@ -160,6 +160,8 @@ This plot directly answers the question:
 
 It shows whether the relationship between equity stress and VIX is strongest immediately or after a delay.
 
+![Plot 1](Figures/VIX_and_Market_Stress_Relationship.png)
+
 ---
 
 ## Plot 3: Immediate Response versus Delayed Response
