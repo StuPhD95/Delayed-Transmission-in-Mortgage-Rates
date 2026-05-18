@@ -18,7 +18,7 @@ $$ \frac{du(t)}{dt}=au(t-\tau),$$
 
 where $\tau>0$ is a delay parameter. In this case, the current rate of change depends on the past value, which captures the idea that volatility may respond to previous market conditions after a time lag. The solution of this equation with history $u(t)=0$ for $t<0$ and $u(0)=1$ is given by 
 
-$$u(t)=\sum_{n=0}^\infty\frac{a^n(t-n\tau)^n}{n!}\Theta\left(t-n\tau\right),$$
+$$u(t)=\sum_{n=0}^\infty\frac{a^n(t-n\tau)^n}{n!}\Theta(t-n\tau),$$
 
 where $\Theta(t)$ is the Heaviside function that is defined as $\Theta(t)=0$ for $t<0$ and $\Theta(t)=1$ for $t\ge 0$. The below plots illustrate the dynamics of the aforementioned solutions over two different time periods.
 
@@ -79,8 +79,6 @@ where \(d\) is a delay measured in trading days. This model asks whether today's
 The case \(d=0\) corresponds to the non-delay model. The cases \(d=1,2,\ldots,10\) correspond to delayed-response models. By comparing these models, we can estimate the delay horizon at which equity-market stress has the strongest relationship with changes in VIX.
 
 The key output is therefore not just a forecast. It is an interpretable estimate of **timing**. If the best model occurs at \(d=0\), then the evidence suggests that the VIX response is mostly immediate. If the best model occurs at \(d>0\), then the evidence suggests that part of the volatility response is delayed.
-
----
 
 ## Model Comparison
 
