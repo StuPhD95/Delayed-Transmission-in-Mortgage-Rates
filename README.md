@@ -130,6 +130,10 @@ The purpose of this plot is not to prove the model. Rather, it visually motivate
 
  The VIX tends to rise during periods of downside equity-market stress. This motivates modelling VIX changes as a response to negative S&P 500 returns.
 
+
+![Plot 1](Figures/VIX_and_Market_Stress_Relationship.png)
+
+
 ---
 
 ## Plot 2: Model Performance by Delay
