@@ -2,9 +2,9 @@
 
 This project investigates whether adding multiple constant time-delays can improve the predictive power of a standard memoryless model in a simple fixed-income setting. The motivating question is:
 
-> Do past Treasury-yield movements help predict mortgage rates better than using only the current Treasury-yield movement?
+> Do past Treasury-yield movements improve mortgage-rate prediction better than a non-delayed model?
 
-Using weekly U.S. interest-rate data, it is shown that the fixed-delay model reduces out-of-sample RMSE by **26.06%** relative to the no-delay benchmark. In simple terms, allowing the model to remember past yield movements helps explain mortgage-rate behaviour more accurately than using only the current yield movement.
+Using weekly U.S. interest-rate data, it is shown that the fixed-delay model reduces out-of-sample root mean squared error (RMSE) by **26.06%** relative to the non-delayed benchmark. In simple terms, allowing the model to remember past yield movements helps explain mortgage-rate behaviour more accurately than using only the current yield movement.
 
 ## Motivation
 
@@ -25,6 +25,7 @@ To test this, I compare a no-delay benchmark with a fixed-delay model that inclu
 ## Non-Delayed Model
 
 It assumes that t
+
 $$\Delta m_t=c+\beta_0\Delta^{10Y}_t+\epsilon_t,$$
 
 where
