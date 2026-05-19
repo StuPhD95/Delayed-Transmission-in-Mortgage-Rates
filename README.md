@@ -8,7 +8,7 @@ Using weekly U.S. interest-rate data, the delayed model reduces out-of-sample ro
 
 ## Motivation
 
-Mortgage rates are the interest rates that borrowers pay on home loans. Treasury yields are interest rates on government bonds, and they help shape the broader cost of borrowing in the economy. Mortgage rates are therefore closely linked to Treasury yields, but the relationship may not be immediate. When Treasury yields move, mortgage rates may adjust not only now but over the following weeks.
+Mortgage rates are the interest rates that borrowers pay on home loans. Treasury yields are interest rates on government bonds, and they help shape the broader cost of borrowing in the economy. Mortgage rates are therefore closely linked to Treasury yields, but the relationship may not be immediately. When Treasury yields move, mortgage rates may adjust not only now but over the following weeks as lender take time to reprice loans.
  
 This project studies a simple example of delayed transmission: the pass-through from the **10-year Treasury yield** to the **30-year fixed mortgage rate**.
 
