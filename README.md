@@ -47,7 +47,7 @@ This means that mortgage-rate changes are better explained by a combination of c
 
 ## Data Overview
 
-The model is fitted using real U.S. interest-rate data from FRED. The target variable is the weekly change in the 30-year fixed mortgage rate, while the explanatory variable is the weekly change in the 10-year Treasury yield.
+The model is fitted using U.S. interest-rate data from Federal Reserve Economic Data (FRED), a public database maintained by the Federal Reserve Bank of St. Louis. The target variable is the weekly change in the 30-year fixed mortgage rate, while the explanatory variable is the weekly change in the 10-year Treasury yield.
 
 <p align="center">
   <img src="Figures/Plot1.png" width="700">
@@ -61,13 +61,9 @@ Plot 1 shows the level of the 10-year Treasury yield and the 30-year fixed mortg
 
 Plot 2 shows the weekly changes used in the regression models. The models are fitted to changes rather than levels because the goal is to explain how movements in Treasury yields pass through to movements in mortgage rates.
 
----
-
 ## Results
 
-The delayed model improves the non-delayed benchmark.
-
-The comparison is made out of sample. This means the models are fitted on an earlier training period and evaluated on a later test period that was not used for fitting.
+The delayed model improves the non-delayed benchmark. The comparison is made out of sample, which means the models are fitted on an earlier training period and evaluated on a later test period that was not used for fitting.
 
 The non-delayed benchmark is
 
@@ -77,7 +73,7 @@ The delayed model is
 
 $$\Delta m_t = c+\beta_0\Delta y^{10Y}_t+\beta_1\Delta y^{10Y}_{t-1}+\beta_2\Delta y^{10Y}_{t-2}+\varepsilon_t.$$
 
-The delayed model reduces out-of-sample RMSE by **25.61%** relative to the non-delayed benchmark.
+The delayed model reduces out-of-sample  root mean squared error (RMSE) by **25.61%** relative to the non-delayed benchmark.
 
 <p align="center">
   <img src="Figures/Plot3.png" width="700">
@@ -90,8 +86,6 @@ Plot 3 shows that the delayed model has lower out-of-sample prediction error tha
 </p>
 
 Plot 4 summarises the key result: adding delayed Treasury-yield terms reduces out-of-sample RMSE by **25.61%**.
-
----
 
 ## Estimated Delayed Effects
 
@@ -108,8 +102,6 @@ The estimated delayed model coefficients are:
 </p>
 
 Plot 5 shows how the estimated response is distributed across the current week and previous weeks. The one-week lag has the largest estimated coefficient, which supports the delayed-transmission interpretation.
-
----
 
 ## Actual versus Predicted Mortgage-Rate Changes
 
