@@ -1,4 +1,4 @@
-# Delayed Transmission in Mortgage Rates
+# Delayed Transmission in Mortgage Rates Regression Model
 
 This project investigates whether adding multiple constant time-delays can improve the predictive power of a standard memoryless model in a simple fixed-income setting. The motivating question is:
 
@@ -8,27 +8,33 @@ Using weekly U.S. interest-rate data, it is shown that the fixed-delay model red
 
 ## Motivation
 
-A key concept in fixed-income markets is the **yield curve**. It shows how the expected yearly return on bonds, known as the **yield**, changes across different maturities, from short-term bonds to longer-term bonds.
-
-The yield curve is closely watched because it reflects market expectations about future interest rates, inflation and economic growth. When those expectations change, yields often move across the curve. However, the adjustment need not happen everywhere at once.
-
+Mortgage rates are the interest rates that borrowers pay on home loans. Treasury yields are interest rates on government bonds, and they help shape the broader cost of borrowing in the economy. Mortgage rates are therefore closely linked to Treasury yields, but the relationship may not be immediate. When Treasury yields move, mortgage rates may adjust not only now but over the following weeks.
+ 
 This project studies a simple example of delayed transmission: the pass-through from the **10-year Treasury yield** to the **30-year fixed mortgage rate**.
-
-Treasury yields are market rates and can update quickly. Mortgage rates are retail lending rates, so they may adjust more slowly through lender pricing, mortgage-market conditions and borrower-facing rate-setting processes.
-
-The main question is therefore:
-
-> When Treasury yields move, do mortgage rates respond immediately, or does part of the response arrive with a delay?
 
 To test this, I compare a no-delay benchmark with a fixed-delay model that includes one-week and two-week lagged Treasury-yield changes. The aim is to see whether adding delayed information improves out-of-sample prediction of mortgage-rate changes.
 
 ## Non-Delayed Model
 
-It assumes that t
+The non-delayed benchmark is simple linear regression model. It assumes that the change in mortgage rates in the present will only depends on the change current change in the 10-year Tresuring yeild. 
+
+Let $m_t$ denote the 30-year fixed mortgage rate in week $t$ and $y^{10Y}_t$ the 10-year Treasury yield in week $t$. The model is fitted to weekly changes rather than rate rate levels. Hence,
+
+$$\Delta m_t=m_t-m_{t-1}$$
+
+and
+
+$$\Delta y^{10Y}_t = y^{10Y}_t - y^{10Y}_{t-1}.$$
+
+
+
+The model is given by
 
 $$\Delta m_t=c+\beta_0\Delta^{10Y}_t+\epsilon_t,$$
 
-where
+Here, $\Delta m_t$ is the weekly change in the 30-year fixed mortgage rate, \Deltaand $\epsilon_t$ denotes the model error and $c\in\mathbb{R}$. The coefficient $\beta_0$ estimatesm, i.e. if $\beta_0>0$ then mortgage rates tend to rise when 1-year Tresury yields rises in the same week.
+
+In simple terms, this model quantitfies how this week's mortgage-rate movement can be explain by this week's Treasury-yield movement. This is called a no-delay model because it does not include past Treasury-yield changes. It assumes that any relevant movement in Treasury yields affects mortgage rates within the same week. The model acts as the benchmark. To justify adding delays, the fixed-delay regression model must improve on this simpler immediate-response model.
 
 
 ## Delayed Model
