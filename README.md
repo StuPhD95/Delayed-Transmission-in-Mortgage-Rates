@@ -1,10 +1,10 @@
-# Delayed Transmission in Mortgage Rates Regression Model
+# Delayed Transmission in Mortgage Rates
 
 This project investigates whether adding multiple constant time-delays can improve the predictive power of a standard memoryless model in a simple fixed-income setting. The motivating question is:
 
-> Do past Treasury-yield movements improve mortgage-rate prediction better than a non-delayed model?
+> Do mortgage rates respond only to current Treasury-yield movements, or do past Treasury-yield movements also improve prediction?
 
-Using weekly U.S. interest-rate data, it is shown that the fixed-delay model reduces out-of-sample root mean squared error (RMSE) by **26.06%** relative to the non-delayed benchmark. In simple terms, allowing the model to remember past yield movements helps explain mortgage-rate behaviour more accurately than using only the current yield movement.
+Using weekly U.S. interest-rate data, the delayed model reduces out-of-sample root mean squared error (RMSE) by **25.61%** relative to the non-delayed benchmark. In simple terms, allowing the model to remember past yield movements helps explain mortgage-rate behaviour more accurately than using only the current yield movement.
 
 ## Motivation
 
@@ -36,9 +36,9 @@ In simple terms, this model asks how much of this week’s mortgage-rate movemen
 
 The delayed model extends the non-delayed benchmark by allowing mortgage-rate changes to depend on Treasury-yield movements from previous weeks. The model is given by
 
-$$ \Delta m_t=c+\beta_0\Delta y^{10}_t+\beta_1\Delta y^{10Y}_{t-1}+\beta_2\Delta y^{10Y}_{t-2}+\epsilon_t,$$
+$$ \Delta m_t=c+\beta_0\Delta y^{10Y}_t+\beta_1\Delta y^{10Y}_{t-1}+\beta_2\Delta y^{10Y}_{t-2}+\epsilon_t,$$
 
-where $\Delta y^{10Y}_{t-i}$ denotes the change in the 10-year Tresury yield $i$ weeks ago and $\beta_i$ measure the estimated relationship between mortgage-rate changes and Treasury-yield changes at different time delays.
+where $\Delta y^{10Y}_{t-i}$ denotes the change in the 10-year Treasury yield $i$ weeks ago and the coefficients $\beta_i$ measure the estimated relationship between mortgage-rate changes and Treasury-yield changes at different time delays.
 
 In simple terms, the model asks whether this week’s mortgage-rate movement can be better explained by using not only this week’s Treasury-yield movement, but also Treasury-yield movements from one and two weeks earlier. This is referred to as a delayed model because the delays are chosen in advance. In this project, the fixed delays are one week and two weeks. The purpose of the model is to test whether mortgage rates adjust gradually rather than all at once. If the delayed model reduces out-of-sample prediction error, then the lagged Treasury-yield terms contain information that the non-delayed benchmark misses.
 
@@ -73,7 +73,7 @@ The delayed model is
 
 $$\Delta m_t = c+\beta_0\Delta y^{10Y}_t+\beta_1\Delta y^{10Y}_{t-1}+\beta_2\Delta y^{10Y}_{t-2}+\varepsilon_t.$$
 
-The delayed model reduces out-of-sample  root mean squared error (RMSE) by **25.61%** relative to the non-delayed benchmark.
+The delayed model reduces out-of-sample RMSE by **25.61%** relative to the non-delayed benchmark.
 
 <p align="center">
   <img src="Figures/Plot3.png" width="700">
@@ -110,3 +110,7 @@ Plot 5 shows how the estimated response is distributed across the current week a
 </p>
 
 Plot 6 compares actual weekly mortgage-rate changes with the delayed model’s predictions over the test period. The model is deliberately simple, but the out-of-sample improvement shows that lagged Treasury-yield changes add useful information beyond the non-delayed benchmark.
+
+## Takeaway
+
+This project tests whether delayed Treasury-yield information improves mortgage-rate prediction relative to a non-delayed benchmark. The result is positive. The delayed model reduces out-of-sample RMSE by **25.61%**, and the largest estimated coefficient comes from the one-week lagged Treasury-yield change. This suggests that mortgage-rate changes are not explained only by current Treasury-yield movements. Past Treasury-yield movements also contain useful information, which supports the idea of delayed pass-through from Treasury yields to mortgage rates. The model is deliberately simple, but it provides a clear example of how delay-based modelling can improve a standard regression benchmark using real market data.
