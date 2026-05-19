@@ -14,11 +14,9 @@ This project studies a simple example of delayed transmission: the pass-through 
 
 To test this, I compare a no-delay benchmark with a fixed-delay model that includes one-week and two-week lagged Treasury-yield changes. The aim is to see whether adding delayed information improves out-of-sample prediction of mortgage-rate changes.
 
-## Non-Delayed Model
+## Non-Delayed Benchmark
 
-The non-delayed benchmark is simple linear regression model. It assumes that the change in mortgage rates in the present will only depends on the change current change in the 10-year Tresuring yeild. 
-
-Let $m_t$ denote the 30-year fixed mortgage rate in week $t$ and $y^{10Y}_t$ the 10-year Treasury yield in week $t$. The model is fitted to weekly changes rather than rate rate levels. Hence,
+The non-delayed benchmark is a simple linear regression model. It predicts this week’s change in the average 30-year fixed mortgage rate using the change in the 10-year Treasury yield over the same week. Let $m_t$ denote the average rate offered on 30-year fixed mortgages in week $t$ and $y^{10Y}_t$ the 10-year Treasury yield in week $t$. The model is fitted to weekly changes, that is,
 
 $$\Delta m_t=m_t-m_{t-1}$$
 
@@ -26,27 +24,23 @@ and
 
 $$\Delta y^{10Y}_t = y^{10Y}_t - y^{10Y}_{t-1}.$$
 
+The non-delayed model is given by
 
+$$\Delta m_t=c+\beta_0\Delta y^{10Y}_t+\epsilon_t,$$
 
-The model is given by
+where $c\in\mathbb{R}$ is the intercept, $\epsilon_t$ is the model error and $\beta_0$ measures the estimated same-week relationship between Treasury-yield changes and mortgage-rate changes.
 
-$$\Delta m_t=c+\beta_0\Delta^{10Y}_t+\epsilon_t,$$
-
-Here, $\Delta m_t$ is the weekly change in the 30-year fixed mortgage rate, \Deltaand $\epsilon_t$ denotes the model error and $c\in\mathbb{R}$. The coefficient $\beta_0$ estimatesm, i.e. if $\beta_0>0$ then mortgage rates tend to rise when 1-year Tresury yields rises in the same week.
-
-In simple terms, this model quantitfies how this week's mortgage-rate movement can be explain by this week's Treasury-yield movement. This is called a no-delay model because it does not include past Treasury-yield changes. It assumes that any relevant movement in Treasury yields affects mortgage rates within the same week. The model acts as the benchmark. To justify adding delays, the fixed-delay regression model must improve on this simpler immediate-response model.
-
+In simple terms, this model asks how much of this week’s mortgage-rate movement can be explained by this week’s Treasury-yield movement. It is called non-delayed because it does not include Treasury-yield changes from previous weeks. The model acts as the benchmark as the delayed model is only useful if adding lagged Treasury-yield changes improves on this simpler memoryless model.
 
 ## Delayed Model
 
-The delayed model allows mortgage-rate changes to depend on both current and historical tresury-yield changes. It is given by
+The delayed model extends the non-delayed benchmark by allowing mortgage-rate changes to depend on Treasury-yield movements from previous weeks. The model is given by
 
 $$ \Delta m_t=c+\beta_0\Delta y^{10}_t+\beta_1\Delta y^{10Y}_{t-1}+\beta_2\Delta y^{10Y}_{t-2}+\epsilon_t,$$
 
-where $\Delta m_t$ is the change in the, $\Delta y^{10Y}_{t-i}$ is the change in the 10-year Tresury yield $i$ weeks ago, $\beta_i$ are response coefficients, $c\in\mathbb{R}$ and $\epsilon_t$ denotes the model error.
+where $\Delta y^{10Y}_{t-i}$ denotes the change in the 10-year Tresury yield $i$ weeks ago and $\beta_i$ measure the estimated relationship between mortgage-rate changes and Treasury-yield changes at different time delays.
 
-
----
+In simple terms, the model asks whether this week’s mortgage-rate movement can be better explained by using not only this week’s Treasury-yield movement, but also Treasury-yield movements from one and two weeks earlier. This is referred to as a delayed model because the delays are chosen in advance. In this project, the fixed delays are one week and two weeks. The purpose of the model is to test whether mortgage rates adjust gradually rather than all at once. If the delayed model reduces out-of-sample prediction error, then the lagged Treasury-yield terms contain information that the non-delayed benchmark misses.
 
 ## Results
 
