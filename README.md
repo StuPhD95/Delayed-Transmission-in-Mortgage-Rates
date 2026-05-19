@@ -63,7 +63,7 @@ Plot 2 shows the weekly changes used in the regression models. The models are fi
 
 ## Results
 
-The delayed model improves the non-delayed benchmark. The comparison is made out of sample, which means the models are fitted on an earlier training period and evaluated on a later test period that was not used for fitting.
+The delayed model improves the non-delayed benchmark. The comparison is made out-of-sample, meaning that the models are fitted on an earlier training period and evaluated on a later test period that was not used for fitting.
 
 The non-delayed benchmark is
 
@@ -73,7 +73,7 @@ The delayed model is
 
 $$\Delta m_t = c+\beta_0\Delta y^{10Y}_t+\beta_1\Delta y^{10Y}_{t-1}+\beta_2\Delta y^{10Y}_{t-2}+\varepsilon_t.$$
 
-The delayed model reduces out-of-sample RMSE by **25.61%** relative to the non-delayed benchmark.
+The delayed model reduces out-of-sample RMSE by **25.61%** relative to the non-delayed benchmark. This means that, on unseen test data, the delayed model made predictions with about 26% lower average error than the non-delayed benchmark. So the result suggests that past Treasury-yield movements contain useful information for predicting mortgage-rate changes.
 
 <p align="center">
   <img src="Figures/Plot3.png" width="700">
