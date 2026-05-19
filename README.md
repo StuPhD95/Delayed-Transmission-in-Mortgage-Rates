@@ -42,77 +42,41 @@ where $\Delta y^{10Y}_{t-i}$ denotes the change in the 10-year Tresury yield $i$
 
 In simple terms, the model asks whether this week’s mortgage-rate movement can be better explained by using not only this week’s Treasury-yield movement, but also Treasury-yield movements from one and two weeks earlier. This is referred to as a delayed model because the delays are chosen in advance. In this project, the fixed delays are one week and two weeks. The purpose of the model is to test whether mortgage rates adjust gradually rather than all at once. If the delayed model reduces out-of-sample prediction error, then the lagged Treasury-yield terms contain information that the non-delayed benchmark misses.
 
-## Results
-
-The fixed-delay model improves the no-delay benchmark. The no-delay model uses only the same-week change in the 10-year Treasury yield to predict the weekly change in the 30-year fixed mortgage rate:
-
-$$\Delta m_t=c+\beta_0 \Delta y^{10Y}_t+\varepsilon_t.$$
-
-The fixed-delay model adds one-week and two-week lagged Treasury-yield changes:
-
-$$\Delta m_t=c+\beta_0 \Delta y^{10Y}_t+\beta_1 \Delta y^{10Y}_{t-1}+\beta_2 \Delta y^{10Y}_{t-2}+\varepsilon_t.$$
-
-The key question is whether these delayed terms improve prediction out of sample.
-
-They do. The fixed-delay model reduces out-of-sample RMSE by **26.06%** relative to the no-delay benchmark.
 
 This means that mortgage-rate changes are better explained by a combination of current and lagged Treasury-yield changes than by current Treasury-yield changes alone.
 
----
+## Results
 
-## RMSE Comparison
+The delayed model improves the non-delayed benchmark.
 
-The improvement is measured using
+The model is tested using real U.S. interest-rate data from FRED. The explanatory variable is the 10-year Treasury constant maturity yield, `DGS10`, and the target variable is the 30-year fixed mortgage rate, `MORTGAGE30US`. The Treasury series is reported daily, while the mortgage-rate series is reported weekly, so the Treasury yield is aligned to the same weekly frequency as the mortgage-rate data.
 
-$$
-100
-\times
-\frac{
-\text{RMSE}_{\text{no delay}}
--
-\text{RMSE}_{\text{fixed delay}}
-}{
-\text{RMSE}_{\text{no delay}}
-}.
-$$
+The comparison is made out of sample. This means the models are fitted on an earlier training period and evaluated on a later test period that was not used for fitting.
 
-A positive value means the fixed-delay model has lower prediction error than the benchmark.
+The non-delayed benchmark uses only the same-week Treasury-yield change:
 
-In this case, the improvement is **26.06%**, so the result is clearly positive.
+$$\Delta m_t = c+\beta_0 \Delta y^{10Y}_t+\varepsilon_t.$$
 
-<p align="center">
-  <img src="Figures/Mortgage_Delay_RMSE_Comparison.png" width="700">
-</p>
+The delayed model adds one-week and two-week lagged Treasury-yield changes:
 
-The RMSE comparison shows that the fixed-delay model has lower out-of-sample prediction error than the no-delay benchmark.
+$$\Delta m_t = c+\beta_0 \Delta y^{10Y}_t+\beta_1 \Delta y^{10Y}_{t-1}+\beta_2 \Delta y^{10Y}_{t-2}+\varepsilon_t.$$
 
-<p align="center">
-  <img src="Figures/Mortgage_Delay_RMSE_Improvement.png" width="700">
-</p>
+The delayed model reduces out-of-sample RMSE by **26.06%** relative to the non-delayed benchmark.
 
-The improvement plot highlights the main quantitative result: adding fixed delays reduces out-of-sample RMSE by **26.06%**.
+Equivalently, if the non-delayed model has indexed RMSE \(1.000\), then the delayed model has indexed RMSE
 
----
+$$1-0.2606=0.7394.$$
 
-## Interpretation
+| Model | Information used | Indexed out-of-sample RMSE | RMSE improvement |
+|---|---|---:|---:|
+| Non-delayed benchmark | Same-week Treasury-yield change | 1.0000 | 0.00% |
+| Delayed model | Same-week, one-week lagged and two-week lagged Treasury-yield changes | 0.7394 | 26.06% |
 
-This result supports the idea of delayed pass-through from Treasury yields to mortgage rates.
+This is a positive result. It shows that lagged Treasury-yield changes contain useful information for predicting mortgage-rate changes that is missed by the simpler non-delayed benchmark.
 
-Treasury yields are market rates that adjust quickly to new information. Mortgage rates, however, are retail lending rates and may adjust more slowly due to lender pricing, mortgage-market conditions and borrower-facing rate-setting processes.
+In plain terms:
 
-The result suggests that this week’s mortgage-rate change is not explained only by this week’s Treasury-yield movement. It also depends on Treasury-yield movements from previous weeks.
-
-In other words, the fixed-delay model captures information that the no-delay benchmark misses.
-
----
-
-## Takeaway
-
-The main result is:
-
-> Adding one-week and two-week fixed delays reduces out-of-sample RMSE by **26.06%** relative to the no-delay model.
-
-This provides a simple, data-driven example where delay-based modelling improves a standard benchmark.
+> Mortgage rates are better explained by Treasury-yield movements from this week and previous weeks than by this week’s Treasury-yield movement alone.
 
 The result does not prove that mortgage rates follow a delay differential equation. However, it does show that fixed-delay terms add useful predictive information in this mortgage-rate pass-through setting.
 
