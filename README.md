@@ -93,9 +93,9 @@ The estimated delayed model coefficients are:
 
 | Predictor | Coefficient | Interpretation |
 |---|---:|---|
-| \(\Delta y^{10Y}_t\) | 0.283 | Same-week Treasury-yield movement affects mortgage-rate changes |
-| \(\Delta y^{10Y}_{t-1}\) | 0.357 | One-week lagged Treasury-yield movement has the largest estimated effect |
-| \(\Delta y^{10Y}_{t-2}\) | 0.029 | Two-week lagged Treasury-yield movement has a smaller additional effect |
+| $\Delta y^{10Y}_t$ | 0.283 | Same-week Treasury-yield movement affects mortgage-rate changes |
+| $\Delta y^{10Y}_{t-1}$ | 0.357 | One-week lagged Treasury-yield movement has the largest estimated effect |
+| $\Delta y^{10Y}_{t-2}$ | 0.029 | Two-week lagged Treasury-yield movement has a smaller additional effect |
 
 <p align="center">
   <img src="Figures/Plot5.png" width="700">
