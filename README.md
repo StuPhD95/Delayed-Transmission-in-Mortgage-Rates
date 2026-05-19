@@ -45,38 +45,76 @@ In simple terms, the model asks whether this week’s mortgage-rate movement can
 
 This means that mortgage-rate changes are better explained by a combination of current and lagged Treasury-yield changes than by current Treasury-yield changes alone.
 
+## Data Overview
+
+The model is fitted using real U.S. interest-rate data from FRED. The target variable is the weekly change in the 30-year fixed mortgage rate, while the explanatory variable is the weekly change in the 10-year Treasury yield.
+
+<p align="center">
+  <img src="Figures/Plot1.png" width="700">
+</p>
+
+Plot 1 shows the level of the 10-year Treasury yield and the 30-year fixed mortgage rate over the sample period. The two rates move together over time, which motivates using Treasury-yield movements to explain mortgage-rate movements.
+
+<p align="center">
+  <img src="Figures/Plot2.png" width="700">
+</p>
+
+Plot 2 shows the weekly changes used in the regression models. The models are fitted to changes rather than levels because the goal is to explain how movements in Treasury yields pass through to movements in mortgage rates.
+
+---
+
 ## Results
 
 The delayed model improves the non-delayed benchmark.
 
-The model is tested using real U.S. interest-rate data from FRED. The explanatory variable is the 10-year Treasury constant maturity yield, `DGS10`, and the target variable is the 30-year fixed mortgage rate, `MORTGAGE30US`. The Treasury series is reported daily, while the mortgage-rate series is reported weekly, so the Treasury yield is aligned to the same weekly frequency as the mortgage-rate data.
-
 The comparison is made out of sample. This means the models are fitted on an earlier training period and evaluated on a later test period that was not used for fitting.
 
-The non-delayed benchmark uses only the same-week Treasury-yield change:
+The non-delayed benchmark is
 
-$$\Delta m_t = c+\beta_0 \Delta y^{10Y}_t+\varepsilon_t.$$
+$$\Delta m_t = c+\beta_0\Delta y^{10Y}_t+\varepsilon_t.$$
 
-The delayed model adds one-week and two-week lagged Treasury-yield changes:
+The delayed model is
 
-$$\Delta m_t = c+\beta_0 \Delta y^{10Y}_t+\beta_1 \Delta y^{10Y}_{t-1}+\beta_2 \Delta y^{10Y}_{t-2}+\varepsilon_t.$$
+$$\Delta m_t = c+\beta_0\Delta y^{10Y}_t+\beta_1\Delta y^{10Y}_{t-1}+\beta_2\Delta y^{10Y}_{t-2}+\varepsilon_t.$$
 
-The delayed model reduces out-of-sample RMSE by **26.06%** relative to the non-delayed benchmark.
+The delayed model reduces out-of-sample RMSE by **25.61%** relative to the non-delayed benchmark.
 
-Equivalently, if the non-delayed model has indexed RMSE \(1.000\), then the delayed model has indexed RMSE
+<p align="center">
+  <img src="Figures/Plot3.png" width="700">
+</p>
 
-$$1-0.2606=0.7394.$$
+Plot 3 shows that the delayed model has lower out-of-sample prediction error than the non-delayed benchmark.
 
-| Model | Information used | Indexed out-of-sample RMSE | RMSE improvement |
-|---|---|---:|---:|
-| Non-delayed benchmark | Same-week Treasury-yield change | 1.0000 | 0.00% |
-| Delayed model | Same-week, one-week lagged and two-week lagged Treasury-yield changes | 0.7394 | 26.06% |
+<p align="center">
+  <img src="Figures/Plot4.png" width="700">
+</p>
 
-This is a positive result. It shows that lagged Treasury-yield changes contain useful information for predicting mortgage-rate changes that is missed by the simpler non-delayed benchmark.
+Plot 4 summarises the key result: adding delayed Treasury-yield terms reduces out-of-sample RMSE by **25.61%**.
 
-In plain terms:
+---
 
-> Mortgage rates are better explained by Treasury-yield movements from this week and previous weeks than by this week’s Treasury-yield movement alone.
+## Estimated Delayed Effects
 
-The result does not prove that mortgage rates follow a delay differential equation. However, it does show that fixed-delay terms add useful predictive information in this mortgage-rate pass-through setting.
+The estimated delayed model coefficients are:
 
+| Predictor | Coefficient | Interpretation |
+|---|---:|---|
+| \(\Delta y^{10Y}_t\) | 0.283 | Same-week Treasury-yield movement affects mortgage-rate changes |
+| \(\Delta y^{10Y}_{t-1}\) | 0.357 | One-week lagged Treasury-yield movement has the largest estimated effect |
+| \(\Delta y^{10Y}_{t-2}\) | 0.029 | Two-week lagged Treasury-yield movement has a smaller additional effect |
+
+<p align="center">
+  <img src="Figures/Plot5.png" width="700">
+</p>
+
+Plot 5 shows how the estimated response is distributed across the current week and previous weeks. The one-week lag has the largest estimated coefficient, which supports the delayed-transmission interpretation.
+
+---
+
+## Actual versus Predicted Mortgage-Rate Changes
+
+<p align="center">
+  <img src="Figures/Plot6.png" width="700">
+</p>
+
+Plot 6 compares actual weekly mortgage-rate changes with the delayed model’s predictions over the test period. The model is deliberately simple, but the out-of-sample improvement shows that lagged Treasury-yield changes add useful information beyond the non-delayed benchmark.
